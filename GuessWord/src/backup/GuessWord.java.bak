@@ -1,0 +1,320 @@
+import java.util.HashMap;
+import java.util.Scanner;
+
+public class GuessWord {
+    static final int lineLength = 70; // Needed across mult. methods
+    static final int borderSize = 2; // 1 char,  both sides ( 1 * 2)
+    static int bodyLineSize = lineLength - borderSize;
+
+    // Enum flags
+    enum validType {
+        INT,
+        DOUBLE,
+        CHAR,
+        STRING,
+        LONG,
+        FLOAT
+    }
+
+    enum transformStr {
+        ORDINAL,
+        ALPHAONLY
+    }
+    enum color {
+        RESET,
+        BLACK,
+        RED,
+        GREEN,
+        YELLOW,
+        BLUE,
+        MAGENTA,
+        CYAN,
+        RAINBOW,
+        DRK_GR
+    }
+    enum alignStr {
+        L,
+        C,
+        R,
+        DIV,
+        BLANK,
+        INPUT
+    }
+
+    public static void main(String[] args) {
+        // Formatting Constants
+        // Colors - Unicode Mapping
+        HashMap<color, String> colorCode = new HashMap<color, String>();
+        colorCode.put(color.RESET  , "\u001B[0m" );
+        colorCode.put(color.BLACK  , "\u001B[30m");
+        colorCode.put(color.RED    , "\u001B[31m");
+        colorCode.put(color.GREEN  , "\u001B[32m");
+        colorCode.put(color.YELLOW , "\u001B[33m");
+        colorCode.put(color.BLUE   , "\u001B[34m");
+        colorCode.put(color.MAGENTA, "\u001B[35m");
+        colorCode.put(color.CYAN   , "\u001B[36m");
+        colorCode.put(color.DRK_GR , "\u001B[234m");
+        colorCode.put(color.RAINBOW, "RAINBOW");
+        // Fallback to no color
+        Boolean colorSupported = false;
+
+        // Alphabets
+        final char[] COLOR_ALPHABET_AS_ARRAY = { 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N',
+                'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z' };
+        final char[] BORING_NO_COLOR_ARRAY = { '_', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_',
+                '_', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_' };
+        char[] alphabetArray;
+
+        // User Input and Input Placeholders
+        Scanner console = new Scanner(System.in);
+        char newGuess;
+        String lettersGuessed = "abc";
+        int attemptsGuessed = 0;
+
+        // Word to Guess Variables - Max char 16
+        String[] wordList = {
+                "hello",
+                "goodbye",
+                "java",
+                "obfuscated",
+                "over-complicated"
+        };
+        String wordToGuess = "HELLO"; // Ensure uppercase
+        int wordLength = wordToGuess.length(); // Length of word
+        String overLine = "\u203E";
+        int ovrlnRepeat = 3;
+        String letterLine = overLine.repeat(ovrlnRepeat);
+        String wordLines = (letterLine + " ").repeat(wordLength - 1) + letterLine; // No space after final
+
+        // Counters
+        int i = 0;
+        int j = 0;
+        int k = 0;
+
+        // Messages
+        Object[][] projectTitleSection = {
+                { colorCode.get("RED") + "Guess-a--Word - Charles Morman", alignStr.C },
+                { "", alignStr.BLANK },
+                { "Color test:", alignStr.L },
+                { "", alignStr.BLANK },
+                // {"Can you see the " + colorStr("COLORS", RAINBOW) + "?",alignStr.L},
+                { "1. Yes, they are beautiful!", alignStr.L },
+                { "2. No. I am a 1-bit kind of person.", alignStr.L } };
+
+        Object[][] instructionsSection = {
+                { colorCode.get("RED") + "INSTRUCTIONS", alignStr.C },
+                { "Try to guess a random word by trying different letters.", alignStr.L },
+                { "There is no limit to how many guesses you get, but try", alignStr.L },
+                { "to beat your high score!", alignStr.L },
+                { "", alignStr.DIV },
+                { "Your word is " + wordLength + " letters long.", alignStr.C },
+                { "", alignStr.DIV },
+                { "Press enter to continue. Good luck!", alignStr.C } };
+
+        sectionBlock(projectTitleSection);
+
+        // Clean Up
+        // out.close();
+        // in.close();
+        // console.close();
+        System.out.print("\n".repeat(3));
+    } // End method main()
+
+    // Task-specific methods
+    public static String chooseWord() {
+
+        String wordToGuess = "";
+        double r = Math.random();
+        int wordLength = wordToGuess.length();
+        return wordToGuess;
+    }
+
+    public static void alphabetBock(String guessedLetters) {
+
+    }
+
+    // #######--FORMATTING METHODS--#######//
+    // ## Clear Console ##//
+    public static void clearConsole() {
+        System.out.print("\033[H" + "\033[2J");
+    }
+
+    // ## Pad String to Fill Box##//
+    public static String borderPadStr(String str, Object alignStrObj) {
+
+        String outStr = "";
+
+        str = " " + str + " "; // Add extra space between border
+        int strLen = str.length();
+
+        String whiteSpace = " ".repeat(bodyLineSize);
+
+        int paddingSize = bodyLineSize - strLen;
+        int paddingLeft = 0;
+        String whitespaceChar = " ";
+        String leftWhitespace = "";
+
+        String paddingChar = "\u2551";
+        String paddingCharLeft = paddingChar;
+        String paddingCharRight = paddingChar;
+
+        String divChar = "\u2550";
+        String divBorderLeft = "\u2560";
+        String divBorderRight = "\u2563";
+
+        String alignStr = alignStrObj.toString();
+
+        switch (alignStr) {
+            case "C":
+                int centerPadding = paddingSize / 2; // Left half of total padding
+                leftWhitespace = whitespaceChar.repeat(centerPadding);
+                break;
+            case "DIV":
+                str = divChar.repeat(bodyLineSize);
+                paddingCharLeft = divBorderLeft;
+                paddingCharRight = divBorderRight;
+                break;
+            default:
+                leftWhitespace = " ";
+                
+        }
+
+        // Concat output string
+        outStr = paddingCharLeft + whiteSpace + paddingCharRight + "\r" +
+                paddingCharLeft + leftWhitespace + str;
+
+        return outStr; // Return String
+    } // End borderPadStr()
+
+    // ## Write Formatted Line to Console
+    public static void printBorderPadStr(String str, Object alignStr) {
+        System.out.println(borderPadStr(str, alignStr));
+    } // End printBorderPadStr()
+      // ## Colorize String##/
+
+    public static String colorStr(Enum color, Boolean colorSupported) {
+        String outStr = "";
+
+        return outStr;
+    } // End colorStr()
+      // ## Write Divider to Console ##//
+
+    public static void printDiv() {
+        System.out.println(borderPadStr("", "DIV"));
+    } // End printBorderPadStr()
+
+    public static void printLine() {
+        System.out.println(borderPadStr(" ", "BLANK"));
+    } // End printBorderPadStr()
+      // ## Iterate Message Array to Create Sections ##//
+
+    public static void sectionBlock(Object[][] msgArray) {
+
+        // Clear Console First
+        clearConsole();
+
+        // Initialize Variables
+        int msgArrayLength = msgArray.length;
+        int arrayUpperBound = msgArrayLength - 1;
+
+        String titleMsg = msgArray[0][0].toString();
+        String titleFmt = msgArray[0][1].toString();
+
+        int i = 0;
+
+        Boolean div = false;
+        Boolean left = true;
+        Boolean center = false;
+        Boolean right = false;
+
+        // Write Top Line
+        System.out.print("\u2554" + "\u2550".repeat(bodyLineSize) + "\u2557" + "\n");
+        // Write Title
+        printBorderPadStr(titleMsg, titleFmt);
+        printDiv();
+        // Write Section Body
+        for (Object[] subArray : msgArray) {
+            i++;
+            if (i <= arrayUpperBound) {
+                try { // Prevent OoB
+                    String msgBody = msgArray[i][0].toString();
+                    String msgFrmt = msgArray[i][1].toString();
+                    printBorderPadStr(msgBody, msgFrmt);
+                } catch(IndexOutOfBoundsException SECTION_Array_bodyMsg_OoB){}// Skip line if OoB
+            }
+        }
+
+        // Write Bottom Line
+        System.out.print("\u255A" + "\u2550".repeat(bodyLineSize) + "\u255D");
+    }
+
+    // #######--INPUT VALIDATION--#######//
+    public static int inputInt(Scanner console) {
+        // Shortcut Call to validateInput()
+        return (int)validateInput(console, validType.INT);
+    }
+
+    public static double inputDouble(Scanner console) {
+        // Shortcut Call to validateInput()
+        return (double)validateInput(console, validType.DOUBLE);
+    }
+
+    public static char inputChar(Scanner console) {
+        // Shortcut Call to validateInput()
+        return validateInput(console, validType.CHAR).toString().charAt(0);
+    }
+
+    public static Object validateInput(Scanner console, Object inputTypeObj) {
+        // Main validation method
+
+        // Integer Variables
+        int inputInt;
+        String intError = "Invalid input type. Please enter an integer.";
+        // Double Variables
+        double inputDouble;
+        String doubleError = "Invalid input type. Please enter a number.";
+        // Character Variables
+        String inputChar;
+        String charError = "That doesn't seem to work.";
+        String tryAgain = "Try again:";
+
+        // Output Variables
+        Object outputObj = "";
+        String inputType = inputTypeObj.toString();
+        switch (inputType) {
+            case "INT":
+                do {
+                    try {
+                        outputObj = console.nextInt();
+                        break;
+                    } catch (Exception inputError_int) {
+                        console.reset();
+                        printLine();
+                        printBorderPadStr(intError, alignStr.L);
+                        printBorderPadStr(tryAgain, alignStr.L);
+                    }
+                } while (true);
+                break; // Break case: int
+            case "DOUBLE":
+                do {
+                    try {
+                        inputDouble = console.nextDouble();
+                        outputObj = String.valueOf(inputDouble);
+                        break;
+                    } catch (Exception inputError_double) {
+                        console.reset();
+                        printLine();
+                        printBorderPadStr(doubleError, alignStr.L);
+                        printBorderPadStr(tryAgain, alignStr.L);
+                    }
+                } while (true);
+                break; // Break case: double
+            case "CHAR":
+
+        } // End switch (inputType)
+
+        // Output
+        return outputObj;
+    } // End method: validateInput()
+
+} // END CLASS

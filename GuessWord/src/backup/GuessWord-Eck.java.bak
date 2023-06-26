@@ -1,0 +1,22 @@
+public class GuessWord {
+   public static void main(String[] args) {
+      Scanner in = new Scanner(System.in);
+      String guesses = "";
+      System.out.println("Guess-a-Word");
+     
+      String word = pickWord();
+
+      do {
+         printWord(word, guesses);
+         guesses = guesses + getUniqueGuess(in, guesses);
+      } while (!wordGuessed(word, guesses));
+
+      printWord(word, guesses);
+
+      System.out.printf("\nYou guessed it in %d tries\n", guesses.length());
+
+      in.close();
+   }
+
+   // Other Methods
+}
