@@ -168,22 +168,21 @@ public class GuessWord {
             }
         /// END SUBROUTINES: MATH ────────────────────────────────────────────────────────────── ///
     /// END SUBROUTINES ──────────────────────────────────────────────────────────────────────── ///
-    /// G ────────────────────────────────────────────────────────────────────────────────────── ///
+
     /// GROUP: GLOBAL VARIABLES ──────────────────────────────────────────────────────────────── ///
-    /// G ────────────────────────────────────────────────────────────────────────────────────── ///
         /// GLOBAL VAR: SCANNER (consoleIn)───────────────────────────────────────────────────── ///
         static Scanner consoleIn = new Scanner(System.in);                      /// N: Allow input in all methods
         /// GLOBAL VAR: BORDER STYLES (UNICODE) ──────────────────────────────────────────────── ///
-        static final String BORDER_TL   = "╔";                                  /// N: TOP-LEFT BORDER
-        static final String BORDER_TR   = "╗";                                  /// N: TOP-RIGHT BORDER
-        static final String BORDER_BL   = "╚";                                  /// N: BOTTOM-LEFT BORDER
-        static final String BORDER_BR   = "╝";                                  /// N: BOTTOM-RIGHT BORDER
-        static final String BORDER_HH   = "═";                                  /// N: HORIZONTAL BORDER
-        static final String BORDER_VV   = "║";                                  /// N: VERTICAL BORDER
-        static final String BORDER_DD   = "╦";                                  /// N: DIVIDER TO-DOWN BORDER
-        static final String BORDER_DU   = "╩";                                  /// N: DIVIDER TO-UP BORDER
-        static final String BORDER_DL   = "╠";                                  /// N: DIVIDER TO-LEFT BORDER
-        static final String BORDER_DR   = "╣";                                  /// N: DIVIDER TO-RIGHT BORDER
+        static final String BORDER_TL   = "\u2554";                             /// N: TOP-LEFT BORDER
+        static final String BORDER_TR   = "\u2557";                             /// N: TOP-RIGHT BORDER
+        static final String BORDER_BL   = "\u255A";                             /// N: BOTTOM-LEFT BORDER
+        static final String BORDER_BR   = "\u255D";                             /// N: BOTTOM-RIGHT BORDER
+        static final String BORDER_HH   = "\u2550";                             /// N: HORIZONTAL BORDER
+        static final String BORDER_VV   = "\u2551";                             /// N: VERTICAL BORDER
+        static final String BORDER_DD   = "\u2566";                             /// N: DIVIDER TO-DOWN BORDER
+        static final String BORDER_DU   = "\u2569";                             /// N: DIVIDER TO-UP BORDER
+        static final String BORDER_DL   = "\u2560";                             /// N: DIVIDER TO-LEFT BORDER
+        static final String BORDER_DR   = "\u2563";                             /// N: DIVIDER TO-RIGHT BORDER
         /// GLOBAL VAR: COLOR CODES (UNICODE)─────────────────────────────────────────────────── ///
         static final String RESET       = "\u001B[0m";                          /// N: Must reset console
         static final String BLACK       = "\u001B[30m";                         /// N: Unicode color
